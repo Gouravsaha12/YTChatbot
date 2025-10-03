@@ -1,0 +1,12 @@
+langchain-groq
+pydentic
+langchain
+python-dotenv
+langchain-core
+langchain-community
+chromadb
+pypdf
+youtube-transcript-api
+sentence-transformers
+langchain_huggingface
+faiss-cpu
