@@ -24,37 +24,37 @@ from typing import TypedDict, Annotated
 
 load_dotenv()
 
-# Get YouTube Video ID from Link 
+# Getting YouTube Video ID from Link 
 id = input("Enter YouTube Video Link: ").split("youtu.be/")[1].split("?")[0]
 print("Video ID: " + id)
 
-# Fetch Transcript
+# Fetching Transcript
 ytt_api = YouTubeTranscriptApi()
 fetched_transcript = ytt_api.fetch(id)
 
-# Save Transcript to File
+# Saving Transcript to File
 with open(f"{id}.txt", "w") as file:
     for snippet in fetched_transcript:      
         file.write(f"{snippet.text} ")
 
-# Read Transcript and Split into Chunks
+# Reading Transcript and Spliting into Chunks
 spliter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 documents = spliter.create_documents([open(f"{id}.txt", "r").read()])
 
-# Create Embeddings, Vector Store and retriever
+# Creating Embeddings, Vector Store and retriever
 embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-# 🔹 Using Chroma instead of FAISS
+# Using Chroma for vectorstore
 vectorstore = Chroma.from_documents(documents, embedding, persist_directory="./chroma_db")
 retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 4})
 
 def format_text(data):
     return " ".join([doc.page_content for doc in data])
 
-# Initialize LLM
+# Initializing LLM
 llm = ChatGroq(model="openai/gpt-oss-120b", temperature=0, api_key=os.getenv("GROQ_API_KEY"))
 
-# DEFINE STATES
+# Defining States
 class ChatState(TypedDict):
     messages: Annotated[list[BaseMessage], add_messages]
     context: str
@@ -73,7 +73,7 @@ def chat_node(state: ChatState):
 
     return {"messages": [response], "context": context}
 
-# Create the graph
+# Creating the graph
 graph = StateGraph(ChatState)
 graph.add_node("chat_node", chat_node)
 graph.add_edge(START, "chat_node")
@@ -84,7 +84,7 @@ chatbot = graph.compile(checkpointer=checkpointer)
 thread_id = '1'
 config = {'configurable': {'thread_id': thread_id}}
 
-# Generate context for intro
+# Generating context for intro
 context = format_text(retriever.invoke("general summary"))
 
 # First system+AI message
