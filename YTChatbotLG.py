@@ -2,10 +2,10 @@ import os
 from dotenv import load_dotenv
 from youtube_transcript_api import YouTubeTranscriptApi
 
-from langchain_core.prompts.chat import ChatPromptTemplate
-from langchain_core.output_parsers import JsonOutputParser
+# from langchain_core.prompts.chat import ChatPromptTemplate
+# from langchain_core.output_parsers import JsonOutputParser
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, BaseMessage
-from langchain_core.runnables import RunnableParallel, RunnableLambda, RunnablePassthrough
+# from langchain_core.runnables import RunnableParallel, RunnableLambda, RunnablePassthrough
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter  
 
