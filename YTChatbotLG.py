@@ -10,6 +10,8 @@ from langchain_core.messages import AIMessage, HumanMessage, SystemMessage, Base
 from langchain.text_splitter import RecursiveCharacterTextSplitter  
 
 from langchain_huggingface import HuggingFaceEmbeddings  
+
+# import faiss
 from langchain_chroma import Chroma
 
 from langchain_groq import ChatGroq  
