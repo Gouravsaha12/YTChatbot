@@ -1,2 +1,25 @@
+# Environments
 .env
+venv/
 venv
+
+# Data and Databases
+data/
+*.txt
+chroma_db/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS specific
+.DS_Store
+Thumbs.db
